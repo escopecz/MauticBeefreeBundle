@@ -108,7 +108,7 @@ class BeefreePageController extends BaseController
 
         $slotTypes   = $model->getBuilderComponents($entity, 'slotTypes');
         $sections    = $model->getBuilderComponents($entity, 'sections');
-        $sectionForm = $this->get('form.factory')->create('builder_section');
+        $sectionForm = $this->get('form.factory')->create(BuilderSectionType::class);
 
         $bfrepo = $this->getDoctrine()->getRepository(BeefreeTheme::class);
         $bvrepo = $this->getDoctrine()->getRepository(BeefreeVersion::class);
@@ -279,7 +279,7 @@ class BeefreePageController extends BaseController
 
         $slotTypes   = $model->getBuilderComponents($entity, 'slotTypes');
         $sections    = $model->getBuilderComponents($entity, 'sections');
-        $sectionForm = $this->get('form.factory')->create('builder_section');
+        $sectionForm = $this->get('form.factory')->create(BuilderSectionType::class);
 
         $bfrepo = $this->getDoctrine()->getRepository(BeefreeTheme::class);
         $bvrepo = $this->getDoctrine()->getRepository(BeefreeVersion::class);

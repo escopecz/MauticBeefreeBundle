@@ -19,7 +19,8 @@ return [
                 'class'=> \MauticPlugin\MauticBeefreeBundle\EventListener\EventSubscriber::class,
                 'arguments' => [
                     'mautic.helper.integration',
-                    'mautic.beefree.repository.beefreeVersion'
+                    'mautic.beefree.repository.beefreeVersion',
+                    'request_stack',
                 ],
             ],
         ],
@@ -57,6 +58,7 @@ return [
         'integrations' => [
             'mautic.integration.beefree' => [
                 'class' => \MauticPlugin\MauticBeefreeBundle\Integration\BeefreeIntegration::class,
+                'tags'  => ['mautic.integration', 'mautic.basic_integration'],
             ],
         ],
         'repositories' => [

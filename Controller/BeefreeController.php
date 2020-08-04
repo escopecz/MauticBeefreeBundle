@@ -19,11 +19,7 @@ use MauticPlugin\MauticBeefreeBundle\Entity\BeefreeVersion;
 
 class BeefreeController extends CommonController
 {
-    private $parametersHelper;
-
     /**
-     * Builder.
-     *
      * @param string $objectType
      * @param int $objectId
      *

@@ -9,30 +9,12 @@
 
 namespace MauticPlugin\MauticBeefreeBundle\Form\Type;
 
-use Mautic\CoreBundle\Factory\MauticFactory;
-use Mautic\CoreBundle\Form\DataTransformer\EmojiToShortTransformer;
-use Mautic\CoreBundle\Form\DataTransformer\IdToEntityModelTransformer;
-use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
-use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
-use Mautic\CoreBundle\Form\Type\DynamicContentTrait;
-use Mautic\CoreBundle\Form\Type\SortableListType;
 use Mautic\PageBundle\Form\Type\PageType as BasePageType;
-use Mautic\LeadBundle\Helper\FormFieldHelper;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Mautic\CoreBundle\Form\Type\FormButtonsType;
 
 class PageType extends BasePageType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder,$options);
@@ -60,12 +42,10 @@ class PageType extends BasePageType
 
         $builder->add(
             'buttons',
-            'form_buttons',
+            FormButtonsType::class,
             [
                 'pre_extra_buttons' => $customButtons,
             ]
         );
-
     }
-
 }

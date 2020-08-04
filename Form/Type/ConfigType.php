@@ -12,15 +12,10 @@ namespace MauticPlugin\MauticBeefreeBundle\Form\Type;
 use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-/**
- * Class ConfigType.
- */
 class ConfigType extends AbstractType
 {
     /**
@@ -33,22 +28,12 @@ class ConfigType extends AbstractType
      */
     protected $translator;
 
-    /**
-     * ConfigType constructor.
-     *
-     * @param CoreParametersHelper $parametersHelper
-     * @param TranslatorInterface $translator
-     */
     public function __construct(CoreParametersHelper $parametersHelper, TranslatorInterface $translator)
     {
         $this->parameters = $parametersHelper;
         $this->translator = $translator;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -100,10 +85,7 @@ class ConfigType extends AbstractType
 
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ldapconfig';
     }

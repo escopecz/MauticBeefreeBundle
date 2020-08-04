@@ -9,28 +9,23 @@
 
 namespace MauticPlugin\MauticBeefreeBundle\Integration;
 
-use Mautic\PluginBundle\Integration\AbstractIntegration;
 use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
-use Mautic\CoreBundle\Helper\CoreParametersHelper;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Mautic\IntegrationsBundle\Integration\BasicIntegration;
+use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+use Mautic\IntegrationsBundle\Integration\ConfigurationTrait;
 
 
-class BeefreeIntegration extends AbstractIntegration
+class BeefreeIntegration extends BasicIntegration implements BasicInterface
 {
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
-    public function getName()
+    use ConfigurationTrait;
+
+    public function getName(): string
     {
         return 'Beefree';
     }
 
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'plugins/MauticBeefreeBundle/Assets/img/icon.png';
     }

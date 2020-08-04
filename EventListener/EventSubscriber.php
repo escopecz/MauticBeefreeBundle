@@ -11,53 +11,49 @@ namespace MauticPlugin\MauticBeefreeBundle\EventListener;
 
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\CustomAssetsEvent;
-use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Event\EmailEvent;
 use Mautic\PageBundle\PageEvents;
 use Mautic\PageBundle\Event\PageEvent;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticBeefreeBundle\Entity\BeefreeVersionRepository;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Routing\RouterInterface;
 
-class EventSubscriber extends CommonSubscriber
+class EventSubscriber implements EventSubscriberInterface
 {
     /**
      * @var IntegrationHelper
      */
     private $integrationHelper;
-    private $beefreeVersionRepository;
-    protected $request;
+
     /**
-     * AssetSubscriber constructor.
-     *
-     * @param IntegrationHelper $integrationHelper
+     * @var BeefreeVersionRepository
      */
-    public function __construct(IntegrationHelper $integrationHelper,BeefreeVersionRepository $bv)
-    {
+    private $beefreeVersionRepository;
+
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    public function __construct(
+        IntegrationHelper $integrationHelper,
+        BeefreeVersionRepository $beefreeVersionRepository,
+        RequestStack $requestStack
+    ){
         $this->integrationHelper = $integrationHelper;
-        $this->beefreeVersionRepository = $bv;
+        $this->beefreeVersionRepository = $beefreeVersionRepository;
+        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onRequest',10],
             CoreEvents::VIEW_INJECT_CUSTOM_ASSETS => ['injectAssets', -10],
             EmailEvents::EMAIL_POST_SAVE => ['saveEmailVersion',-20],
             PageEvents::PAGE_POST_SAVE => ['savePageVersion',-20],
         ];
-    }
-
-    /**
-     * @param CustomAssetsEvent $assetsEvent
-     */
-    public function onRequest(KernelEvent $kernelEvent)
-    {
-        $this->request = $kernelEvent->getRequest();
     }
 
     /**
@@ -75,8 +71,8 @@ class EventSubscriber extends CommonSubscriber
      */
     public function saveEmailVersion(EmailEvent $emailEvent)
     {
-        $json = $this->request->get('beefree-template');
-        $emailForm = $this->request->get('emailform');
+        $json = $this->requestStack->getCurrentRequest()->get('beefree-template');
+        $emailForm = $this->requestStack->getCurrentRequest()->get('emailform');
         $emailName = $emailForm['name'];
         $content = $emailForm['customHtml'];
         if (!empty($json)) {
@@ -88,8 +84,8 @@ class EventSubscriber extends CommonSubscriber
      */
     public function savePageVersion(PageEvent $pageEvent)
     {
-        $json = $this->request->get('beefree-template');
-        $pageForm = $this->request->get('page');
+        $json = $this->requestStack->getCurrentRequest()->get('beefree-template');
+        $pageForm = $this->requestStack->getCurrentRequest()->get('page');
         $pageName = $pageForm['title'];
         $content = $pageForm['customHtml'];
         if (!empty($json)) {
